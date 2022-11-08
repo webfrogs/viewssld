@@ -337,7 +337,7 @@ static int proceed(void)
 	// 255 is sessionTableSize
 	// First 0 means use default key_timeout_interval - libdssl 2.1.1 will use 3600 here
 	// Second 0 means use default tcp_timeout_interval - libdssl 2.1.1 will use 180 here
-	env = CapEnvCreate(p, 255, 0, 0);
+	env = CapEnvCreate(p, 255, 0, 0, 0);
 
 	rc = CapEnvSetSSL_ServerInfo(env, &config.cap[capindex]->server_ip, config.cap[capindex]->port, 
 					config.cap[capindex]->keyfile, config.cap[capindex]->pwd);
@@ -460,7 +460,7 @@ static void session_event_handler(CapEnv* env, TcpSession* sess, char event)
 		        {
 				if( init_fake_session_state( mySession ) != -1 )
 				{
-					SessionSetCallback(sess, data_callback_proc, error_callback_proc, sess);
+					SessionSetCallback(sess, data_callback_proc, error_callback_proc, NULL,sess);
 					sess->user_data = mySession;
 					SessionSetMissingPacketCallback( sess, missing_packet_callback, MISSING_PACKET_COUNT, 
 						MISSING_PACKET_TIMEOUT );
